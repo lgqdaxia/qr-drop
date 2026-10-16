@@ -1,41 +1,42 @@
 <!doctype html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="color-scheme" content="light dark">
   <meta name="theme-color" content="#f7f7f5">
-  <meta name="description" content="拖入、选择或粘贴图片，即刻读取二维码。图片仅在本地处理。">
-  <title>解码 · QR</title>
+  <meta name="description" content="Drop, choose or paste an image to read its QR code. Images stay on your device." data-i18n-content="description">
+  <title>QR · Decode</title>
   <link rel="icon" href="./favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="./style.css">
+  <script src="./i18n.js" defer></script>
   <script src="./app.js" defer></script>
 </head>
 <body>
   <header class="header">
-    <a class="brand" href="./" aria-label="解码首页"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M3 9V4a1 1 0 0 1 1-1h5M15 3h5a1 1 0 0 1 1 1v5M21 15v5a1 1 0 0 1-1 1h-5M9 21H4a1 1 0 0 1-1-1v-5"/><path d="M8 8h2v2H8zM14 8h2v2h-2zM8 14h2v2H8zM14 14h2v2h-2z"/></svg><span>解码</span></a>
-    <a class="github icon-button" href="https://github.com/lgqdaxia/qr-drop" target="_blank" rel="noopener noreferrer" aria-label="GitHub 源码" title="GitHub"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-3.16 19.49c.5.09.68-.22.68-.48v-1.86c-2.78.6-3.37-1.18-3.37-1.18-.45-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.61.07-.61 1 .07 1.53 1.03 1.53 1.03.89 1.53 2.34 1.09 2.91.83.09-.65.35-1.09.64-1.34-2.22-.25-4.55-1.11-4.55-4.94 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.65 0 0 .84-.27 2.75 1.02A9.6 9.6 0 0 1 12 6.82c.85 0 1.71.11 2.51.34 1.91-1.29 2.75-1.02 2.75-1.02.55 1.38.2 2.4.1 2.65.64.7 1.03 1.59 1.03 2.68 0 3.84-2.34 4.69-4.57 4.94.36.31.68.92.68 1.85v2.75c0 .27.18.58.69.48A10 10 0 0 0 12 2Z"/></svg></a>
+    <a class="brand" href="./" aria-label="QR home" data-i18n-aria-label="homeLabel"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M3 9V4a1 1 0 0 1 1-1h5M15 3h5a1 1 0 0 1 1 1v5M21 15v5a1 1 0 0 1-1 1h-5M9 21H4a1 1 0 0 1-1-1v-5"/><path d="M8 8h2v2H8zM14 8h2v2h-2zM8 14h2v2H8zM14 14h2v2h-2z"/></svg><span data-i18n="appName">QR</span></a>
+    <a class="github icon-button" href="https://github.com/lgqdaxia/qr-drop" target="_blank" rel="noopener noreferrer" aria-label="Source on GitHub" data-i18n-aria-label="sourceLabel" title="GitHub"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-3.16 19.49c.5.09.68-.22.68-.48v-1.86c-2.78.6-3.37-1.18-3.37-1.18-.45-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.61.07-.61 1 .07 1.53 1.03 1.53 1.03.89 1.53 2.34 1.09 2.91.83.09-.65.35-1.09.64-1.34-2.22-.25-4.55-1.11-4.55-4.94 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.65 0 0 .84-.27 2.75 1.02A9.6 9.6 0 0 1 12 6.82c.85 0 1.71.11 2.51.34 1.91-1.29 2.75-1.02 2.75-1.02.55 1.38.2 2.4.1 2.65.64.7 1.03 1.59 1.03 2.68 0 3.84-2.34 4.69-4.57 4.94.36.31.68.92.68 1.85v2.75c0 .27.18.58.69.48A10 10 0 0 0 12 2Z"/></svg></a>
   </header>
 
   <main>
     <div class="tool">
       <input id="file-input" type="file" accept="image/*" hidden>
-      <button id="drop-zone" class="drop-zone" type="button" aria-label="拖入二维码图片，或点击选择图片">
+      <button id="drop-zone" class="drop-zone" type="button" aria-label="Drop a QR image, or click to choose one" data-i18n-aria-label="dropLabel">
         <span class="scan-icon" aria-hidden="true"><svg viewBox="0 0 64 64" fill="none"><path class="corners" d="M19 7H9a2 2 0 0 0-2 2v10M45 7h10a2 2 0 0 1 2 2v10M57 45v10a2 2 0 0 1-2 2H45M19 57H9a2 2 0 0 1-2-2V45"/><path class="modules" d="M18 18h10v10H18zM36 18h10v10H36zM18 36h10v10H18zM36 36h4v4h-4zM42 42h4v4h-4zM42 34h4v4h-4zM34 42h4v4h-4z"/></svg></span>
-        <span class="drop-title">拖入二维码</span>
-        <span class="drop-hint">点击选择<span class="dot">·</span><span id="paste-hint">Ctrl V 粘贴</span></span>
+        <span class="drop-title" data-i18n="dropTitle">Drop a QR image</span>
+        <span class="drop-hint"><span data-i18n="choose">Choose image</span><span class="dot">·</span><span id="paste-hint">Paste Ctrl V</span></span>
       </button>
 
-      <section id="result" class="result" aria-label="解码结果" hidden>
-        <div class="result-top"><span class="success-mark" aria-hidden="true"><svg viewBox="0 0 20 20" fill="none"><path d="m5 10 3 3 7-7"/></svg></span><span>已识别</span><button id="reset-button" class="icon-button" type="button" title="重新选择" aria-label="重新选择图片"><svg viewBox="0 0 24 24" fill="none"><path d="M7 7l10 10M17 7 7 17"/></svg></button></div>
-        <div class="result-content"><img id="preview" alt="二维码图片预览"><pre id="result-text" tabindex="0" aria-label="二维码内容"></pre></div>
-        <div class="result-actions"><a id="open-link" class="secondary-button" target="_blank" rel="noopener noreferrer" hidden>打开链接<svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M5 15 15 5M5 5h10v10"/></svg></a><button id="copy-button" class="primary-button" type="button"><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><rect x="7" y="7" width="9" height="10" rx="2"/><path d="M12 7V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v5a2 2 0 0 0 2 2h2"/></svg><span>复制</span></button></div>
+      <section id="result" class="result" aria-label="Decoded result" data-i18n-aria-label="resultLabel" hidden>
+        <div class="result-top"><span class="success-mark" aria-hidden="true"><svg viewBox="0 0 20 20" fill="none"><path d="m5 10 3 3 7-7"/></svg></span><span data-i18n="detected">Decoded</span><button id="reset-button" class="icon-button" type="button" title="Start again" data-i18n-title="resetTitle" aria-label="Choose another image" data-i18n-aria-label="resetLabel"><svg viewBox="0 0 24 24" fill="none"><path d="M7 7l10 10M17 7 7 17"/></svg></button></div>
+        <div class="result-content"><img id="preview" alt="QR image preview" data-i18n-alt="previewAlt"><pre id="result-text" tabindex="0" aria-label="QR content" data-i18n-aria-label="contentLabel"></pre></div>
+        <div class="result-actions"><a id="open-link" class="secondary-button" target="_blank" rel="noopener noreferrer" hidden><span data-i18n="openLink">Open link</span><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M5 15 15 5M5 5h10v10"/></svg></a><button id="copy-button" class="primary-button" type="button"><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><rect x="7" y="7" width="9" height="10" rx="2"/><path d="M12 7V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v5a2 2 0 0 0 2 2h2"/></svg><span data-i18n="copy">Copy</span></button></div>
       </section>
       <p id="status" class="status" role="status" aria-live="polite"></p>
     </div>
   </main>
 
-  <footer><svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="4" y="7" width="8" height="6" rx="1.5"/><path d="M5.5 7V5a2.5 2.5 0 0 1 5 0v2"/></svg>本地识别，图片不上传</footer>
-  <div id="drag-overlay" class="drag-overlay" aria-hidden="true"><span>松开，解码</span></div>
+  <footer><svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="4" y="7" width="8" height="6" rx="1.5"/><path d="M5.5 7V5a2.5 2.5 0 0 1 5 0v2"/></svg><span data-i18n="privacy">On-device. No uploads.</span></footer>
+  <div id="drag-overlay" class="drag-overlay" aria-hidden="true"><span data-i18n="release">Drop to decode</span></div>
 </body>
 </html>

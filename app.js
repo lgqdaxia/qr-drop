@@ -1,6 +1,17 @@
 'use strict';
 
 const $ = (id) => document.getElementById(id);
+const t = window.i18n.t;
+document.documentElement.lang = window.i18n.language;
+document.title = t('pageTitle');
+document.querySelectorAll('[data-i18n]').forEach((element) => {
+  element.textContent = t(element.getAttribute('data-i18n'));
+});
+for (const attribute of ['aria-label', 'title', 'alt', 'content']) {
+  document.querySelectorAll(`[data-i18n-${attribute}]`).forEach((element) => {
+    element.setAttribute(attribute, t(element.getAttribute(`data-i18n-${attribute}`)));
+  });
+}
 const input = $('file-input');
 const dropZone = $('drop-zone');
 const result = $('result');
@@ -17,7 +28,8 @@ let imageURL = null;
 let copyTimer = null;
 let dragDepth = 0;
 
-if (/Mac|iPhone|iPad/.test(navigator.platform)) $('paste-hint').textContent = '⌘ V 粘贴';
+const pasteKey = /Mac|iPhone|iPad/.test(navigator.platform) ? '⌘ V' : 'Ctrl V';
+$('paste-hint').textContent = t('paste').replace('{key}', pasteKey);
 
 function message(text, error = false) {
   status.textContent = text;
@@ -42,11 +54,11 @@ function reset() {
   stopScan();
   releaseImage();
   clearTimeout(copyTimer);
-  copyButton.querySelector('span').textContent = '复制';
+  copyButton.querySelector('span').textContent = t('copy');
   dropZone.hidden = false;
   dropZone.classList.remove('loading');
   dropZone.removeAttribute('aria-busy');
-  title.textContent = '拖入二维码';
+  title.textContent = t('dropTitle');
   result.hidden = true;
   resultText.textContent = '';
   openLink.hidden = true;
@@ -57,7 +69,7 @@ function reset() {
 
 function decodePixels(worker, pixels, width, height) {
   return new Promise((resolve, reject) => {
-    const timer = setTimeout(() => finish(null, new Error('识别超时，请裁剪后重试')), 12000);
+    const timer = setTimeout(() => finish(null, new Error('timeout')), 12000);
     const finish = (value, error) => {
       clearTimeout(timer);
       cancelScan = null;
@@ -66,8 +78,8 @@ function decodePixels(worker, pixels, width, height) {
       if (error) reject(error); else resolve(value);
     };
     cancelScan = () => finish(null, new DOMException('Canceled', 'AbortError'));
-    worker.onmessage = ({ data }) => data.error ? finish(null, new Error('图片无法识别')) : finish(data.text);
-    worker.onerror = (event) => { event.preventDefault(); finish(null, new Error('解码器未能加载，请刷新重试')); };
+    worker.onmessage = ({ data }) => data.error ? finish(null, new Error('unreadable')) : finish(data.text);
+    worker.onerror = (event) => { event.preventDefault(); finish(null, new Error('decoderFailed')); };
     worker.postMessage({ pixels: pixels.buffer, width, height }, [pixels.buffer]);
   });
 }
@@ -75,8 +87,8 @@ function decodePixels(worker, pixels, width, height) {
 async function decodeImage(image, token) {
   const width = image.naturalWidth;
   const height = image.naturalHeight;
-  if (!width || !height) throw new Error('图片无法读取');
-  if (width * height > 64000000 || Math.max(width, height) > 32000) throw new Error('图片太大，请裁剪后重试');
+  if (!width || !height) throw new Error('unreadable');
+  if (width * height > 64000000 || Math.max(width, height) > 32000) throw new Error('tooLarge');
 
   // Native detection is an optional fast path; the bundled decoder is always available.
   if ('BarcodeDetector' in window) {
@@ -103,7 +115,7 @@ async function decodeImage(image, token) {
   const started = performance.now();
   const scan = async (x, y, cropWidth, cropHeight, targetWidth, targetHeight) => {
     if (token !== generation) throw new DOMException('Canceled', 'AbortError');
-    if (performance.now() - started > 45000) throw new Error('识别超时，请裁剪后重试');
+    if (performance.now() - started > 45000) throw new Error('timeout');
     canvas.width = targetWidth;
     canvas.height = targetHeight;
     context.fillStyle = '#ffffff';
@@ -153,16 +165,16 @@ async function readFile(file) {
   reset();
   const token = generation;
   if (!file.type.startsWith('image/') && !/\.(png|jpe?g|webp|gif|bmp|avif|svg|ico)$/i.test(file.name)) {
-    message('请选择图片', true);
+    message(t('chooseImage'), true);
     return;
   }
   if (file.size > 30 * 1024 * 1024) {
-    message('图片太大，请裁剪后重试', true);
+    message(t('tooLarge'), true);
     return;
   }
   dropZone.classList.add('loading');
   dropZone.setAttribute('aria-busy', 'true');
-  title.textContent = '识别中';
+  title.textContent = t('decoding');
   message('');
   const objectURL = URL.createObjectURL(file);
   imageURL = objectURL;
@@ -174,7 +186,7 @@ async function readFile(file) {
     const text = await decodeImage(image, token);
     if (token !== generation) return;
     if (text === null) {
-      message('未找到二维码，换张图片试试', true);
+      message(t('notFound'), true);
       releaseImage();
       return;
     }
@@ -194,13 +206,14 @@ async function readFile(file) {
     copyButton.focus({ preventScroll: true });
   } catch (error) {
     if (token !== generation || error.name === 'AbortError') return;
-    message(error.name === 'EncodingError' ? '图片无法读取，换张图片试试' : error.message || '图片无法读取', true);
+    const errorKey = ['timeout', 'unreadable', 'decoderFailed', 'tooLarge'].includes(error.message) ? error.message : 'unreadable';
+    message(t(errorKey), true);
     releaseImage();
   } finally {
     if (token === generation) {
       dropZone.classList.remove('loading');
       dropZone.removeAttribute('aria-busy');
-      title.textContent = '拖入二维码';
+      title.textContent = t('dropTitle');
     }
     input.value = '';
   }
@@ -223,11 +236,11 @@ copyButton.addEventListener('click', async () => {
     field.select();
     let copied = false;
     try { copied = document.execCommand('copy'); } finally { field.remove(); copyButton.focus(); }
-    if (!copied) { message('请选中文字复制', true); return; }
+    if (!copied) { message(t('copyManually'), true); return; }
   }
-  copyButton.querySelector('span').textContent = '已复制';
+  copyButton.querySelector('span').textContent = t('copied');
   clearTimeout(copyTimer);
-  copyTimer = setTimeout(() => { copyButton.querySelector('span').textContent = '复制'; }, 1600);
+  copyTimer = setTimeout(() => { copyButton.querySelector('span').textContent = t('copy'); }, 1600);
 });
 
 const isFileDrag = (event) => Array.from(event.dataTransfer?.types || []).includes('Files');

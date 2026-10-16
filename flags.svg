@@ -1,0 +1,108 @@
+<svg xmlns="http://www.w3.org/2000/svg">
+  <symbol id="flag-zh-Hans" viewBox="0 0 30 20">
+    <rect width="30" height="20" fill="#ee1c25"/>
+    <g fill="#ffde00">
+      <path transform="translate(5 5) scale(3)" d="M0-1 .2245-.309 .9511-.309 .3633.118 .5878.809 0 .382-.5878.809-.3633.118-.9511-.309-.2245-.309Z"/>
+      <path transform="translate(10 2) rotate(-120.964)" d="M0-1 .2245-.309 .9511-.309 .3633.118 .5878.809 0 .382-.5878.809-.3633.118-.9511-.309-.2245-.309Z"/>
+      <path transform="translate(12 4) rotate(-98.13)" d="M0-1 .2245-.309 .9511-.309 .3633.118 .5878.809 0 .382-.5878.809-.3633.118-.9511-.309-.2245-.309Z"/>
+      <path transform="translate(12 7) rotate(-74.055)" d="M0-1 .2245-.309 .9511-.309 .3633.118 .5878.809 0 .382-.5878.809-.3633.118-.9511-.309-.2245-.309Z"/>
+      <path transform="translate(10 9) rotate(-51.34)" d="M0-1 .2245-.309 .9511-.309 .3633.118 .5878.809 0 .382-.5878.809-.3633.118-.9511-.309-.2245-.309Z"/>
+    </g>
+  </symbol>
+
+  <symbol id="flag-zh-Hant" viewBox="0 0 30 20">
+    <rect width="30" height="20" fill="#fe0000"/>
+    <rect width="15" height="10" fill="#000095"/>
+    <g fill="#fff">
+      <path d="M7.5 1.25 8.28 3.8H6.72Z"/>
+      <path transform="rotate(30 7.5 5)" d="M7.5 1.25 8.28 3.8H6.72Z"/>
+      <path transform="rotate(60 7.5 5)" d="M7.5 1.25 8.28 3.8H6.72Z"/>
+      <path transform="rotate(90 7.5 5)" d="M7.5 1.25 8.28 3.8H6.72Z"/>
+      <path transform="rotate(120 7.5 5)" d="M7.5 1.25 8.28 3.8H6.72Z"/>
+      <path transform="rotate(150 7.5 5)" d="M7.5 1.25 8.28 3.8H6.72Z"/>
+      <path transform="rotate(180 7.5 5)" d="M7.5 1.25 8.28 3.8H6.72Z"/>
+      <path transform="rotate(210 7.5 5)" d="M7.5 1.25 8.28 3.8H6.72Z"/>
+      <path transform="rotate(240 7.5 5)" d="M7.5 1.25 8.28 3.8H6.72Z"/>
+      <path transform="rotate(270 7.5 5)" d="M7.5 1.25 8.28 3.8H6.72Z"/>
+      <path transform="rotate(300 7.5 5)" d="M7.5 1.25 8.28 3.8H6.72Z"/>
+      <path transform="rotate(330 7.5 5)" d="M7.5 1.25 8.28 3.8H6.72Z"/>
+    </g>
+    <circle cx="7.5" cy="5" r="2.05" fill="#000095"/>
+    <circle cx="7.5" cy="5" r="1.875" fill="#fff"/>
+  </symbol>
+
+  <symbol id="flag-en" viewBox="0 0 30 20">
+    <rect width="30" height="20" fill="#012169"/>
+    <path d="m0 0 30 20M30 0 0 20" fill="none" stroke="#fff" stroke-width="4"/>
+    <path d="M0 0v1.5L12.75 10H15ZM30 20v-1.5L17.25 10H15ZM30 0h-2.25L15 8.5V10ZM0 20h2.25L15 11.5V10Z" fill="#c8102e"/>
+    <path d="M15 0v20M0 10h30" fill="none" stroke="#fff" stroke-width="6"/>
+    <path d="M15 0v20M0 10h30" fill="none" stroke="#c8102e" stroke-width="3.6"/>
+  </symbol>
+
+  <symbol id="flag-ja" viewBox="0 0 30 20">
+    <rect width="30" height="20" fill="#fff"/>
+    <circle cx="15" cy="10" r="6" fill="#bc002d"/>
+  </symbol>
+
+  <symbol id="flag-ko" viewBox="0 0 30 20">
+    <rect width="30" height="20" fill="#fff"/>
+    <g transform="translate(15 10) rotate(33.69)">
+      <circle r="5" fill="#cd2e3a"/>
+      <path d="M-5 0A5 5 0 0 0 5 0A2.5 2.5 0 0 0 0 0A2.5 2.5 0 0 1-5 0Z" fill="#0047a0"/>
+    </g>
+    <g fill="none" stroke="#000" stroke-width=".8333">
+      <path transform="translate(7.5 5) rotate(-56.31)" d="M-2.5-1.25h5M-2.5 0h5M-2.5 1.25h5"/>
+      <path transform="translate(22.5 5) rotate(56.31)" d="M-2.5-1.25h2.0833m.8334 0H2.5M-2.5 0h5M-2.5 1.25h2.0833m.8334 0H2.5"/>
+      <path transform="translate(7.5 15) rotate(56.31)" d="M-2.5-1.25h5M-2.5 0h2.0833m.8334 0H2.5M-2.5 1.25h5"/>
+      <path transform="translate(22.5 15) rotate(-56.31)" d="M-2.5-1.25h2.0833m.8334 0H2.5M-2.5 0h2.0833m.8334 0H2.5M-2.5 1.25h2.0833m.8334 0H2.5"/>
+    </g>
+  </symbol>
+
+  <symbol id="flag-es" viewBox="0 0 30 20">
+    <rect width="30" height="20" fill="#aa151b"/>
+    <rect y="5" width="30" height="10" fill="#f1bf00"/>
+    <g transform="translate(8 10)">
+      <path d="M-2.8-1.3v4M2.8-1.3v4" fill="none" stroke="#eee" stroke-width=".65"/>
+      <path d="M-3.35-1.3h1.1m-1.1 4h1.1m4.5-4h1.1m-1.1 4h1.1" fill="none" stroke="#c89b29" stroke-width=".4"/>
+      <path d="M-1.9-2.8h3.8l-.35-.95-.65.35L0-4.2l-.9.8-.65-.35Z" fill="#c89b29" stroke="#aa151b" stroke-width=".22"/>
+      <path d="M-2-2h4v2.4c0 1.65-1 2.45-2 2.85-1-.4-2-1.2-2-2.85Z" fill="#eee" stroke="#c89b29" stroke-width=".3"/>
+      <path d="M-1.8-1.8H0V0h-1.8ZM0 0h1.8v.4c0 .65-.25 1.2-.65 1.6H0Z" fill="#aa151b"/>
+      <path d="M-1.45-.35V-1.1h.3v-.35h.3v.35h.3v.75ZM.35 1.3V.55h.3V.2h.3v.35h.3v.75Z" fill="#f1bf00"/>
+      <path d="M.55-1.5.95-.9.5-.35m-1.7.8.4.6-.35.5" fill="none" stroke="#aa151b" stroke-width=".35"/>
+      <ellipse cy=".1" rx=".5" ry=".65" fill="#0055a4" stroke="#aa151b" stroke-width=".2"/>
+      <path d="M-.15 2.45 0 2.1l.15.35Z" fill="#278447"/>
+    </g>
+  </symbol>
+
+  <symbol id="flag-fr" viewBox="0 0 30 20">
+    <rect width="30" height="20" fill="#fff"/>
+    <rect width="10" height="20" fill="#000091"/>
+    <rect x="20" width="10" height="20" fill="#e1000f"/>
+  </symbol>
+
+  <symbol id="flag-de" viewBox="0 0 30 20">
+    <rect width="30" height="20" fill="#ffce00"/>
+    <rect width="30" height="13.3334" fill="#d00"/>
+    <rect width="30" height="6.6667" fill="#000"/>
+  </symbol>
+
+  <symbol id="flag-pt" viewBox="0 0 30 20">
+    <rect width="30" height="20" fill="#f00"/>
+    <rect width="12" height="20" fill="#060"/>
+    <g transform="translate(12 10)">
+      <g fill="none" stroke="#ff0" stroke-width=".45">
+        <circle r="4.15"/>
+        <ellipse rx="1.7" ry="4.15"/>
+        <ellipse rx="4.15" ry="1.45"/>
+        <path d="m-3.5-2.25 7 4.5M-3.5 2.25l7-4.5M0-4.15v8.3M-4.15 0h8.3"/>
+      </g>
+      <path d="M-2.55-3h5.1V.55c0 1.65-1.1 2.6-2.55 3.1C-1.45 3.15-2.55 2.2-2.55.55Z" fill="#fff" stroke="#f00" stroke-width=".8"/>
+      <g fill="#039">
+        <path d="M-.4-1.95h.8v.7L0-.95l-.4-.3ZM-1.45-.8h.8v.7l-.4.3-.4-.3ZM.65-.8h.8v.7l-.4.3-.4-.3ZM-.4-.8h.8v.7L0 .2l-.4-.3ZM-.4.4h.8v.7l-.4.3-.4-.3Z"/>
+      </g>
+      <g fill="#ff0">
+        <path d="M-2.65-2.8h.5v.5h-.5ZM-.25-3.4h.5v.5h-.5ZM2.15-2.8h.5v.5h-.5ZM-2.65-.7h.5v.5h-.5ZM2.15-.7h.5v.5h-.5ZM-1.9 1.55h.5v.5h-.5ZM1.4 1.55h.5v.5h-.5Z"/>
+      </g>
+    </g>
+  </symbol>
+</svg>

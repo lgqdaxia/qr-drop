@@ -4,6 +4,8 @@
   const dictionaries = {
     en: {
       appName: 'QR',
+      chooseLanguage: 'Language',
+      automatic: 'Automatic',
       pageTitle: 'QR · Decode',
       description: 'Drop, choose or paste an image to read a QR code. Images stay on your device.',
       homeLabel: 'QR home',
@@ -34,6 +36,8 @@
     },
     'zh-Hans': {
       appName: '解码',
+      chooseLanguage: '切换语言',
+      automatic: '自动',
       pageTitle: '解码 · QR',
       description: '拖入、选择或粘贴图片，即刻读取二维码。图片仅在本地处理。',
       homeLabel: '解码首页',
@@ -64,6 +68,8 @@
     },
     'zh-Hant': {
       appName: '解碼',
+      chooseLanguage: '切換語言',
+      automatic: '自動',
       pageTitle: '解碼 · QR',
       description: '拖入、選擇或貼上圖片，即刻讀取 QR Code。圖片僅在本機處理。',
       homeLabel: '解碼首頁',
@@ -94,6 +100,8 @@
     },
     ja: {
       appName: 'QR',
+      chooseLanguage: '言語',
+      automatic: '自動',
       pageTitle: 'QR · 読み取り',
       description: '画像をドロップ、選択、貼り付けて QR コードを読み取ります。画像は端末内で処理されます。',
       homeLabel: 'QR ホーム',
@@ -124,6 +132,8 @@
     },
     ko: {
       appName: 'QR',
+      chooseLanguage: '언어',
+      automatic: '자동',
       pageTitle: 'QR · 읽기',
       description: '이미지를 끌어 놓거나 선택하거나 붙여 넣어 QR 코드를 읽으세요. 이미지는 기기 안에서 처리됩니다.',
       homeLabel: 'QR 홈',
@@ -154,6 +164,8 @@
     },
     es: {
       appName: 'QR',
+      chooseLanguage: 'Idioma',
+      automatic: 'Automático',
       pageTitle: 'QR · Leer',
       description: 'Arrastra, elige o pega una imagen para leer su QR. Las imágenes se procesan en tu dispositivo.',
       homeLabel: 'Inicio de QR',
@@ -184,6 +196,8 @@
     },
     fr: {
       appName: 'QR',
+      chooseLanguage: 'Langue',
+      automatic: 'Automatique',
       pageTitle: 'QR · Lire',
       description: 'Glissez, choisissez ou collez une image pour lire son QR code. Les images restent sur votre appareil.',
       homeLabel: 'Accueil QR',
@@ -214,6 +228,8 @@
     },
     de: {
       appName: 'QR',
+      chooseLanguage: 'Sprache',
+      automatic: 'Automatisch',
       pageTitle: 'QR · Lesen',
       description: 'Bild ablegen, auswählen oder einfügen, um den QR-Code zu lesen. Bilder bleiben auf deinem Gerät.',
       homeLabel: 'QR-Startseite',
@@ -244,6 +260,8 @@
     },
     pt: {
       appName: 'QR',
+      chooseLanguage: 'Idioma',
+      automatic: 'Automático',
       pageTitle: 'QR · Ler',
       description: 'Arraste, escolha ou cole uma imagem para ler o QR code. As imagens ficam no seu dispositivo.',
       homeLabel: 'Início do QR',
@@ -274,31 +292,56 @@
     },
   };
 
-  let language = 'en';
-  try {
-    const preferences = Array.isArray(navigator.languages) ? [...navigator.languages] : [];
-    if (navigator.language && !preferences.includes(navigator.language)) preferences.push(navigator.language);
-    for (const preference of preferences) {
-      if (typeof preference !== 'string') continue;
-      const parts = preference.trim().replace(/_/g, '-').toLowerCase().split('-');
-      const base = parts[0];
-      if (base === 'zh') {
-        if (parts.includes('hant')) language = 'zh-Hant';
-        else if (parts.includes('hans')) language = 'zh-Hans';
-        else language = parts.some((part) => ['tw', 'hk', 'mo'].includes(part)) ? 'zh-Hant' : 'zh-Hans';
-        break;
+  function detectLanguage() {
+    let language = 'en';
+    try {
+      const preferences = Array.isArray(navigator.languages) ? [...navigator.languages] : [];
+      if (navigator.language && !preferences.includes(navigator.language)) preferences.push(navigator.language);
+      for (const preference of preferences) {
+        if (typeof preference !== 'string') continue;
+        const parts = preference.trim().replace(/_/g, '-').toLowerCase().split('-');
+        const base = parts[0];
+        if (base === 'zh') {
+          if (parts.includes('hant')) language = 'zh-Hant';
+          else if (parts.includes('hans')) language = 'zh-Hans';
+          else language = parts.some((part) => ['tw', 'hk', 'mo'].includes(part)) ? 'zh-Hant' : 'zh-Hans';
+          break;
+        }
+        if (Object.prototype.hasOwnProperty.call(dictionaries, base)) {
+          language = base;
+          break;
+        }
       }
-      if (Object.prototype.hasOwnProperty.call(dictionaries, base)) {
-        language = base;
-        break;
-      }
+    } catch {
+      language = 'en';
     }
-  } catch {
-    language = 'en';
+    return language;
   }
 
+  let language = detectLanguage();
+  let preference = 'auto';
+  try {
+    const saved = localStorage.getItem('qr-language');
+    if (Object.prototype.hasOwnProperty.call(dictionaries, saved)) {
+      preference = saved;
+      language = saved;
+    }
+  } catch { /* Switching still works when storage is unavailable. */ }
+
   window.i18n = Object.freeze({
-    language,
+    get language() { return language; },
+    get preference() { return preference; },
+    setLanguage(next) {
+      if (next !== 'auto' && !Object.prototype.hasOwnProperty.call(dictionaries, next)) return false;
+      preference = next;
+      language = next === 'auto' ? detectLanguage() : next;
+      try {
+        if (next === 'auto') localStorage.removeItem('qr-language');
+        else localStorage.setItem('qr-language', next);
+      } catch { /* The chosen language remains active for this visit. */ }
+      window.dispatchEvent(new Event('qr-languagechange'));
+      return true;
+    },
     t(key) {
       if (Object.prototype.hasOwnProperty.call(dictionaries[language], key)) return dictionaries[language][key];
       if (Object.prototype.hasOwnProperty.call(dictionaries.en, key)) return dictionaries.en[key];

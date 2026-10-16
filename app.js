@@ -2,16 +2,6 @@
 
 const $ = (id) => document.getElementById(id);
 const t = window.i18n.t;
-document.documentElement.lang = window.i18n.language;
-document.title = t('pageTitle');
-document.querySelectorAll('[data-i18n]').forEach((element) => {
-  element.textContent = t(element.getAttribute('data-i18n'));
-});
-for (const attribute of ['aria-label', 'title', 'alt', 'content']) {
-  document.querySelectorAll(`[data-i18n-${attribute}]`).forEach((element) => {
-    element.setAttribute(attribute, t(element.getAttribute(`data-i18n-${attribute}`)));
-  });
-}
 const input = $('file-input');
 const dropZone = $('drop-zone');
 const result = $('result');
@@ -27,12 +17,86 @@ let cancelScan = null;
 let imageURL = null;
 let copyTimer = null;
 let dragDepth = 0;
+let messageKey = '';
+let copyFeedback = false;
 
 const pasteKey = /Mac|iPhone|iPad/.test(navigator.platform) ? '⌘ V' : 'Ctrl V';
-$('paste-hint').textContent = t('paste').replace('{key}', pasteKey);
+const languageButton = $('language-button');
+const languageMenu = $('language-menu');
+const languageNames = { 'zh-Hans': '简体中文', 'zh-Hant': '繁體中文', en: 'English', ja: '日本語', ko: '한국어', es: 'Español', fr: 'Français', de: 'Deutsch', pt: 'Português' };
 
-function message(text, error = false) {
-  status.textContent = text;
+function applyLanguage() {
+  document.documentElement.lang = window.i18n.language;
+  document.title = t('pageTitle');
+  document.querySelectorAll('[data-i18n]').forEach((element) => {
+    element.textContent = t(element.getAttribute('data-i18n'));
+  });
+  for (const attribute of ['aria-label', 'title', 'alt', 'content']) {
+    document.querySelectorAll(`[data-i18n-${attribute}]`).forEach((element) => {
+      element.setAttribute(attribute, t(element.getAttribute(`data-i18n-${attribute}`)));
+    });
+  }
+  $('paste-hint').textContent = t('paste').replace('{key}', pasteKey);
+  title.textContent = t(dropZone.classList.contains('loading') ? 'decoding' : 'dropTitle');
+  copyButton.querySelector('span').textContent = t(copyFeedback ? 'copied' : 'copy');
+  status.textContent = messageKey ? t(messageKey) : '';
+  languageButton.querySelector('use').setAttribute('href', `./flags.svg#flag-${window.i18n.language}`);
+  const label = `${t('chooseLanguage')}: ${languageNames[window.i18n.language]}`;
+  languageButton.setAttribute('aria-label', label);
+  languageButton.title = label;
+  languageMenu.querySelectorAll('[data-language]').forEach((button) => {
+    button.setAttribute('aria-checked', String(button.dataset.language === window.i18n.preference));
+  });
+}
+
+function setMenu(open, restoreFocus = false) {
+  languageMenu.hidden = !open;
+  languageButton.setAttribute('aria-expanded', String(open));
+  if (open) languageMenu.querySelector('[aria-checked="true"]').focus();
+  else if (restoreFocus) languageButton.focus();
+}
+
+languageButton.addEventListener('click', () => setMenu(languageMenu.hidden));
+languageButton.addEventListener('keydown', (event) => {
+  if (!['ArrowDown', 'ArrowUp'].includes(event.key)) return;
+  event.preventDefault();
+  setMenu(true);
+  if (event.key === 'ArrowUp') languageMenu.lastElementChild.focus();
+});
+languageMenu.addEventListener('click', (event) => {
+  const button = event.target.closest('[data-language]');
+  if (!button) return;
+  window.i18n.setLanguage(button.dataset.language);
+  setMenu(false, true);
+});
+languageMenu.addEventListener('keydown', (event) => {
+  const buttons = [...languageMenu.querySelectorAll('[data-language]')];
+  const index = buttons.indexOf(document.activeElement);
+  let next;
+  if (['ArrowDown', 'ArrowRight'].includes(event.key)) next = (index + 1) % buttons.length;
+  else if (['ArrowUp', 'ArrowLeft'].includes(event.key)) next = (index - 1 + buttons.length) % buttons.length;
+  else if (event.key === 'Home') next = 0;
+  else if (event.key === 'End') next = buttons.length - 1;
+  if (next !== undefined) { event.preventDefault(); buttons[next].focus(); }
+});
+document.addEventListener('keydown', (event) => {
+  if (event.key === 'Escape' && !languageMenu.hidden) { event.preventDefault(); setMenu(false, true); }
+});
+document.addEventListener('pointerdown', (event) => {
+  if (!event.target.closest('.language-switch')) setMenu(false);
+});
+document.addEventListener('focusin', (event) => {
+  if (!event.target.closest('.language-switch')) setMenu(false);
+});
+window.addEventListener('qr-languagechange', applyLanguage);
+window.addEventListener('languagechange', () => {
+  if (window.i18n.preference === 'auto') window.i18n.setLanguage('auto');
+});
+applyLanguage();
+
+function message(key, error = false) {
+  messageKey = key;
+  status.textContent = key ? t(key) : '';
   status.classList.toggle('error', error);
 }
 
@@ -54,6 +118,7 @@ function reset() {
   stopScan();
   releaseImage();
   clearTimeout(copyTimer);
+  copyFeedback = false;
   copyButton.querySelector('span').textContent = t('copy');
   dropZone.hidden = false;
   dropZone.classList.remove('loading');
@@ -165,11 +230,11 @@ async function readFile(file) {
   reset();
   const token = generation;
   if (!file.type.startsWith('image/') && !/\.(png|jpe?g|webp|gif|bmp|avif|svg|ico)$/i.test(file.name)) {
-    message(t('chooseImage'), true);
+    message('chooseImage', true);
     return;
   }
   if (file.size > 30 * 1024 * 1024) {
-    message(t('tooLarge'), true);
+    message('tooLarge', true);
     return;
   }
   dropZone.classList.add('loading');
@@ -186,7 +251,7 @@ async function readFile(file) {
     const text = await decodeImage(image, token);
     if (token !== generation) return;
     if (text === null) {
-      message(t('notFound'), true);
+      message('notFound', true);
       releaseImage();
       return;
     }
@@ -207,7 +272,7 @@ async function readFile(file) {
   } catch (error) {
     if (token !== generation || error.name === 'AbortError') return;
     const errorKey = ['timeout', 'unreadable', 'decoderFailed', 'tooLarge'].includes(error.message) ? error.message : 'unreadable';
-    message(t(errorKey), true);
+    message(errorKey, true);
     releaseImage();
   } finally {
     if (token === generation) {
@@ -236,11 +301,12 @@ copyButton.addEventListener('click', async () => {
     field.select();
     let copied = false;
     try { copied = document.execCommand('copy'); } finally { field.remove(); copyButton.focus(); }
-    if (!copied) { message(t('copyManually'), true); return; }
+    if (!copied) { message('copyManually', true); return; }
   }
+  copyFeedback = true;
   copyButton.querySelector('span').textContent = t('copied');
   clearTimeout(copyTimer);
-  copyTimer = setTimeout(() => { copyButton.querySelector('span').textContent = t('copy'); }, 1600);
+  copyTimer = setTimeout(() => { copyFeedback = false; copyButton.querySelector('span').textContent = t('copy'); }, 1600);
 });
 
 const isFileDrag = (event) => Array.from(event.dataTransfer?.types || []).includes('Files');

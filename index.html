@@ -8,13 +8,27 @@
   <meta name="description" content="Drop, choose or paste an image to read its QR code. Images stay on your device." data-i18n-content="description">
   <title>QR · Decode</title>
   <link rel="icon" href="./favicon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="./style.css">
-  <script src="./i18n.js" defer></script>
-  <script src="./app.js" defer></script>
+  <link rel="stylesheet" href="./style.css?v=3">
+  <script src="./i18n.js?v=3" defer></script>
+  <script src="./app.js?v=3" defer></script>
 </head>
 <body>
   <header class="header">
-    <a class="brand" href="./" aria-label="QR home" data-i18n-aria-label="homeLabel"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M3 9V4a1 1 0 0 1 1-1h5M15 3h5a1 1 0 0 1 1 1v5M21 15v5a1 1 0 0 1-1 1h-5M9 21H4a1 1 0 0 1-1-1v-5"/><path d="M8 8h2v2H8zM14 8h2v2h-2zM8 14h2v2H8zM14 14h2v2h-2z"/></svg><span data-i18n="appName">QR</span></a>
+    <div class="language-switch">
+      <button id="language-button" class="icon-button" type="button" aria-label="Language" title="Language" aria-haspopup="menu" aria-expanded="false" aria-controls="language-menu"><svg class="flag" viewBox="0 0 30 20" aria-hidden="true"><use href="./flags.svg#flag-en"></use></svg></button>
+      <div id="language-menu" class="language-menu" role="menu" aria-label="Language" data-i18n-aria-label="chooseLanguage" hidden>
+        <button type="button" role="menuitemradio" aria-checked="false" data-language="zh-Hans" aria-label="简体中文" title="简体中文"><svg class="flag" viewBox="0 0 30 20" aria-hidden="true"><use href="./flags.svg#flag-zh-Hans"></use></svg></button>
+        <button type="button" role="menuitemradio" aria-checked="false" data-language="zh-Hant" aria-label="繁體中文" title="繁體中文"><svg class="flag" viewBox="0 0 30 20" aria-hidden="true"><use href="./flags.svg#flag-zh-Hant"></use></svg></button>
+        <button type="button" role="menuitemradio" aria-checked="false" data-language="en" aria-label="English" title="English"><svg class="flag" viewBox="0 0 30 20" aria-hidden="true"><use href="./flags.svg#flag-en"></use></svg></button>
+        <button type="button" role="menuitemradio" aria-checked="false" data-language="ja" aria-label="日本語" title="日本語"><svg class="flag" viewBox="0 0 30 20" aria-hidden="true"><use href="./flags.svg#flag-ja"></use></svg></button>
+        <button type="button" role="menuitemradio" aria-checked="false" data-language="ko" aria-label="한국어" title="한국어"><svg class="flag" viewBox="0 0 30 20" aria-hidden="true"><use href="./flags.svg#flag-ko"></use></svg></button>
+        <button type="button" role="menuitemradio" aria-checked="false" data-language="es" aria-label="Español" title="Español"><svg class="flag" viewBox="0 0 30 20" aria-hidden="true"><use href="./flags.svg#flag-es"></use></svg></button>
+        <button type="button" role="menuitemradio" aria-checked="false" data-language="fr" aria-label="Français" title="Français"><svg class="flag" viewBox="0 0 30 20" aria-hidden="true"><use href="./flags.svg#flag-fr"></use></svg></button>
+        <button type="button" role="menuitemradio" aria-checked="false" data-language="de" aria-label="Deutsch" title="Deutsch"><svg class="flag" viewBox="0 0 30 20" aria-hidden="true"><use href="./flags.svg#flag-de"></use></svg></button>
+        <button type="button" role="menuitemradio" aria-checked="false" data-language="pt" aria-label="Português" title="Português"><svg class="flag" viewBox="0 0 30 20" aria-hidden="true"><use href="./flags.svg#flag-pt"></use></svg></button>
+        <button class="auto-language" type="button" role="menuitemradio" aria-checked="true" data-language="auto" aria-label="Automatic" title="Automatic" data-i18n-aria-label="automatic" data-i18n-title="automatic"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="9"/><ellipse cx="12" cy="12" rx="4" ry="9"/><path d="M3 12h18"/></svg></button>
+      </div>
+    </div>
     <a class="github icon-button" href="https://github.com/lgqdaxia/qr-drop" target="_blank" rel="noopener noreferrer" aria-label="Source on GitHub" data-i18n-aria-label="sourceLabel" title="GitHub"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-3.16 19.49c.5.09.68-.22.68-.48v-1.86c-2.78.6-3.37-1.18-3.37-1.18-.45-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.61.07-.61 1 .07 1.53 1.03 1.53 1.03.89 1.53 2.34 1.09 2.91.83.09-.65.35-1.09.64-1.34-2.22-.25-4.55-1.11-4.55-4.94 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.65 0 0 .84-.27 2.75 1.02A9.6 9.6 0 0 1 12 6.82c.85 0 1.71.11 2.51.34 1.91-1.29 2.75-1.02 2.75-1.02.55 1.38.2 2.4.1 2.65.64.7 1.03 1.59 1.03 2.68 0 3.84-2.34 4.69-4.57 4.94.36.31.68.92.68 1.85v2.75c0 .27.18.58.69.48A10 10 0 0 0 12 2Z"/></svg></a>
   </header>
 

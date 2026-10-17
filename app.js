@@ -20,7 +20,6 @@ let dragDepth = 0;
 let messageKey = '';
 let copyFeedback = false;
 
-const pasteKey = /Mac|iPhone|iPad/.test(navigator.platform) ? '⌘ V' : 'Ctrl V';
 const languageButton = $('language-button');
 const languageMenu = $('language-menu');
 const languageNames = { 'zh-Hans': '简体中文', 'zh-Hant': '繁體中文', en: 'English', ja: '日本語', ko: '한국어', es: 'Español', fr: 'Français', de: 'Deutsch', pt: 'Português' };
@@ -36,7 +35,6 @@ function applyLanguage() {
       element.setAttribute(attribute, t(element.getAttribute(`data-i18n-${attribute}`)));
     });
   }
-  $('paste-hint').textContent = t('paste').replace('{key}', pasteKey);
   title.textContent = t(dropZone.classList.contains('loading') ? 'decoding' : 'dropTitle');
   copyButton.querySelector('span').textContent = t(copyFeedback ? 'copied' : 'copy');
   status.textContent = messageKey ? t(messageKey) : '';

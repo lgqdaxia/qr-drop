@@ -4,13 +4,13 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="color-scheme" content="light dark">
-  <meta name="theme-color" content="#f7f7f5">
+  <meta name="theme-color" content="#f7f7f7">
   <meta name="description" content="Drop, choose or paste an image to read its QR code. Images stay on your device." data-i18n-content="description">
   <title>QR · Decode</title>
-  <link rel="icon" href="./favicon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="./style.css?v=3">
-  <script src="./i18n.js?v=3" defer></script>
-  <script src="./app.js?v=3" defer></script>
+  <link rel="icon" href="./favicon.svg?v=4" type="image/svg+xml">
+  <link rel="stylesheet" href="./style.css?v=4">
+  <script src="./i18n.js?v=4" defer></script>
+  <script src="./app.js?v=4" defer></script>
 </head>
 <body>
   <header class="header">
@@ -38,7 +38,6 @@
       <button id="drop-zone" class="drop-zone" type="button" aria-label="Drop a QR image, or click to choose one" data-i18n-aria-label="dropLabel">
         <span class="scan-icon" aria-hidden="true"><svg viewBox="0 0 64 64" fill="none"><path class="corners" d="M19 7H9a2 2 0 0 0-2 2v10M45 7h10a2 2 0 0 1 2 2v10M57 45v10a2 2 0 0 1-2 2H45M19 57H9a2 2 0 0 1-2-2V45"/><path class="modules" d="M18 18h10v10H18zM36 18h10v10H36zM18 36h10v10H18zM36 36h4v4h-4zM42 42h4v4h-4zM42 34h4v4h-4zM34 42h4v4h-4z"/></svg></span>
         <span class="drop-title" data-i18n="dropTitle">Drop a QR image</span>
-        <span class="drop-hint"><span data-i18n="choose">Choose image</span><span class="dot">·</span><span id="paste-hint">Paste Ctrl V</span></span>
       </button>
 
       <section id="result" class="result" aria-label="Decoded result" data-i18n-aria-label="resultLabel" hidden>
@@ -50,7 +49,7 @@
     </div>
   </main>
 
-  <footer><svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="4" y="7" width="8" height="6" rx="1.5"/><path d="M5.5 7V5a2.5 2.5 0 0 1 5 0v2"/></svg><span data-i18n="privacy">On-device. No uploads.</span></footer>
+  <footer><svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="4" y="7" width="8" height="6" rx="1.5"/><path d="M5.5 7V5a2.5 2.5 0 0 1 5 0v2"/></svg><span data-i18n="privacy">Local processing</span></footer>
   <div id="drag-overlay" class="drag-overlay" aria-hidden="true"><span data-i18n="release">Drop to decode</span></div>
 </body>
 </html>
